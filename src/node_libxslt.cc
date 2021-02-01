@@ -275,10 +275,12 @@ NAN_METHOD(RegisterEXSLT) {
 // Compose the module by assigning the methods previously prepared
 void InitAll(Local<Object> exports) {
   	Stylesheet::Init(exports);
-  	exports->Set(Nan::New<String>("stylesheetSync").ToLocalChecked(),Nan::GetFunction(Nan::New<FunctionTemplate>(StylesheetSync)).ToLocalChecked());
-    exports->Set(Nan::New<String>("stylesheetAsync").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(StylesheetAsync)).ToLocalChecked());
-  	exports->Set(Nan::New<String>("applySync").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(ApplySync)).ToLocalChecked());
-    exports->Set(Nan::New<String>("applyAsync").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(ApplyAsync)).ToLocalChecked());
-    exports->Set(Nan::New<String>("registerEXSLT").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(RegisterEXSLT)).ToLocalChecked());
+    Isolate* isolate = exports->GetIsolate();
+    Local<Context> context = isolate->GetCurrentContext();
+  	exports->Set(context, Nan::New<String>("stylesheetSync").ToLocalChecked(),Nan::GetFunction(Nan::New<FunctionTemplate>(StylesheetSync)).ToLocalChecked());
+    exports->Set(context, Nan::New<String>("stylesheetAsync").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(StylesheetAsync)).ToLocalChecked());
+  	exports->Set(context, Nan::New<String>("applySync").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(ApplySync)).ToLocalChecked());
+    exports->Set(context, Nan::New<String>("applyAsync").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(ApplyAsync)).ToLocalChecked());
+    exports->Set(context, Nan::New<String>("registerEXSLT").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(RegisterEXSLT)).ToLocalChecked());
 }
 NODE_MODULE(node_libxslt, InitAll);
